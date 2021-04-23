@@ -1,0 +1,1209 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <style>
+        #map {
+            width: 914px;
+            height: 501px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/proj4.js"></script>
+        <script src="js/proj4leaflet.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/12_villages_autour_de_Dinangourou_0.js"></script>
+        <script src="data/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var crs = new L.Proj.CRS('EPSG:32630', '+proj=utm +zone=30 +datum=WGS84 +units=m +no_defs', {
+            resolutions: [2800, 1400, 700, 350, 175, 84, 42, 21, 11.2, 5.6, 2.8, 1.4, 0.7, 0.35, 0.14, 0.07],
+        });
+        var map = L.map('map', {
+            crs: crs,
+            continuousWorld: false,
+            worldCopyJump: false, 
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[14.192229786006914,-2.60296275616552],[14.683573778428709,-1.685825872877959]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_12_villages_autour_de_Dinangourou_0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Village'] !== null ? autolinker.link(feature.properties['Village'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Demographi'] !== null ? autolinker.link(feature.properties['Demographi'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Type_pop'] !== null ? autolinker.link(feature.properties['Type_pop'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Wikipedia'] !== null ? autolinker.link(feature.properties['Wikipedia'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['J3_Indice_Sti'] !== null ? autolinker.link(feature.properties['J3_Indice_Sti'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_12_villages_autour_de_Dinangourou_0_0(feature) {
+            if (feature.properties['J3_Indice_Sti'] >= 0.143000 && feature.properties['J3_Indice_Sti'] <= 0.500000 ) {
+                return {
+                pane: 'pane_12_villages_autour_de_Dinangourou_0',
+                radius: 16.0,
+                opacity: 1,
+                color: 'rgba(179,92,21,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(245,5,5,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['J3_Indice_Sti'] >= 0.500000 && feature.properties['J3_Indice_Sti'] <= 1.000000 ) {
+                return {
+                pane: 'pane_12_villages_autour_de_Dinangourou_0',
+                radius: 16.0,
+                opacity: 1,
+                color: 'rgba(179,92,21,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(197,43,14,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['J3_Indice_Sti'] >= 1.000000 && feature.properties['J3_Indice_Sti'] <= 1.500000 ) {
+                return {
+                pane: 'pane_12_villages_autour_de_Dinangourou_0',
+                radius: 16.0,
+                opacity: 1,
+                color: 'rgba(179,92,21,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(148,82,24,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['J3_Indice_Sti'] >= 1.500000 && feature.properties['J3_Indice_Sti'] <= 2.000000 ) {
+                return {
+                pane: 'pane_12_villages_autour_de_Dinangourou_0',
+                radius: 16.0,
+                opacity: 1,
+                color: 'rgba(179,92,21,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(99,121,34,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['J3_Indice_Sti'] >= 2.000000 && feature.properties['J3_Indice_Sti'] <= 2.090000 ) {
+                return {
+                pane: 'pane_12_villages_autour_de_Dinangourou_0',
+                radius: 16.0,
+                opacity: 1,
+                color: 'rgba(179,92,21,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_12_villages_autour_de_Dinangourou_0');
+        map.getPane('pane_12_villages_autour_de_Dinangourou_0').style.zIndex = 400;
+        map.getPane('pane_12_villages_autour_de_Dinangourou_0').style['mix-blend-mode'] = 'normal';
+        var layer_12_villages_autour_de_Dinangourou_0 = new L.geoJson(json_12_villages_autour_de_Dinangourou_0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_12_villages_autour_de_Dinangourou_0',
+            layerName: 'layer_12_villages_autour_de_Dinangourou_0',
+            pane: 'pane_12_villages_autour_de_Dinangourou_0',
+            onEachFeature: pop_12_villages_autour_de_Dinangourou_0,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_12_villages_autour_de_Dinangourou_0_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_12_villages_autour_de_Dinangourou_0);
+        map.addLayer(layer_12_villages_autour_de_Dinangourou_0);
+        function pop_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DEBIT_PUIT'] !== null ? autolinker.link(feature.properties['DEBIT_PUIT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['J1_Village'] !== null ? autolinker.link(feature.properties['J1_Village'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['J1_Demogra'] !== null ? autolinker.link(feature.properties['J1_Demogra'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['J1_Type_nu'] !== null ? autolinker.link(feature.properties['J1_Type_nu'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['J1_Type_po'] !== null ? autolinker.link(feature.properties['J1_Type_po'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Besoin_Eau'] !== null ? autolinker.link(feature.properties['Besoin_Eau'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Indice_Sti'] !== null ? autolinker.link(feature.properties['Indice_Sti'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Wikipedia'] !== null ? autolinker.link(feature.properties['Wikipedia'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_0(feature) {
+            if (feature.properties['DEBIT_PUIT'] >= 50.000000 && feature.properties['DEBIT_PUIT'] <= 100.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 100.000000 && feature.properties['DEBIT_PUIT'] <= 200.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,254,231,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 200.000000 && feature.properties['DEBIT_PUIT'] <= 300.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(205,252,206,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 300.000000 && feature.properties['DEBIT_PUIT'] <= 400.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,250,182,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 400.000000 && feature.properties['DEBIT_PUIT'] <= 500.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(154,248,157,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 500.000000 && feature.properties['DEBIT_PUIT'] <= 600.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,247,132,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 600.000000 && feature.properties['DEBIT_PUIT'] <= 700.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,245,108,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 700.000000 && feature.properties['DEBIT_PUIT'] <= 800.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(78,243,83,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 800.000000 && feature.properties['DEBIT_PUIT'] <= 900.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(52,241,59,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 900.000000 && feature.properties['DEBIT_PUIT'] <= 950.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 4.2,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(27,239,34,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        function style_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_1(feature) {
+            if (feature.properties['DEBIT_PUIT'] >= 50.000000 && feature.properties['DEBIT_PUIT'] <= 100.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 100.000000 && feature.properties['DEBIT_PUIT'] <= 200.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(230,254,231,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 200.000000 && feature.properties['DEBIT_PUIT'] <= 300.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(205,252,206,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 300.000000 && feature.properties['DEBIT_PUIT'] <= 400.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(179,250,182,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 400.000000 && feature.properties['DEBIT_PUIT'] <= 500.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(154,248,157,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 500.000000 && feature.properties['DEBIT_PUIT'] <= 600.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,247,132,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 600.000000 && feature.properties['DEBIT_PUIT'] <= 700.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,245,108,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 700.000000 && feature.properties['DEBIT_PUIT'] <= 800.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(78,243,83,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 800.000000 && feature.properties['DEBIT_PUIT'] <= 900.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(52,241,59,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['DEBIT_PUIT'] >= 900.000000 && feature.properties['DEBIT_PUIT'] <= 950.000000 ) {
+                return {
+                pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+                radius: 0.91875,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(27,239,34,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1');
+        map.getPane('pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1').style.zIndex = 401;
+        map.getPane('pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1').style['mix-blend-mode'] = 'normal';
+        var layer_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1 = new L.geoJson.multiStyle(json_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+            layerName: 'layer_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+            pane: 'pane_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1',
+            onEachFeature: pop_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1,
+            pointToLayers: [function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_0(feature));
+            },function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_1(feature));
+            },
+        ]});
+        bounds_group.addLayer(layer_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1);
+        map.addLayer(layer_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Puits_les_plus_Proches_par _Villages_Et_Eaux_Dipo_par_village<br /><table><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_501000.png" /></td><td>50 - 100</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_1002001.png" /></td><td>100 - 200</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_2003002.png" /></td><td>200 - 300</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_3004003.png" /></td><td>300 - 400</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_4005004.png" /></td><td>400 - 500</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_5006005.png" /></td><td>500 - 600</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_6007006.png" /></td><td>600 - 700</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_7008007.png" /></td><td>700 - 800</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_8009008.png" /></td><td>800 - 900</td></tr><tr><td style="text-align: center;"><img src="legend/Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1_9009509.png" /></td><td>900 - 950</td></tr></table>': layer_Puits_les_plus_Proches_par_Villages_Et_Eaux_Dipo_par_village_1,'12_villages_autour_de_Dinangourou<br /><table><tr><td style="text-align: center;"><img src="legend/12_villages_autour_de_Dinangourou_0_0140500.png" /></td><td>0,14 - 0,50</td></tr><tr><td style="text-align: center;"><img src="legend/12_villages_autour_de_Dinangourou_0_0501001.png" /></td><td>0,50 - 1,00</td></tr><tr><td style="text-align: center;"><img src="legend/12_villages_autour_de_Dinangourou_0_1001502.png" /></td><td>1,00 - 1,50</td></tr><tr><td style="text-align: center;"><img src="legend/12_villages_autour_de_Dinangourou_0_1502003.png" /></td><td>1,50 - 2,00</td></tr><tr><td style="text-align: center;"><img src="legend/12_villages_autour_de_Dinangourou_0_2002094.png" /></td><td>2,00 - 2,09</td></tr></table>': layer_12_villages_autour_de_Dinangourou_0,},{collapsed:false}).addTo(map);
+        map.on("zoomend", function(){
+
+                if (map.hasLayer(layer_12_villages_autour_de_Dinangourou_0)) {
+                    if (map.getZoom() <= 5 && map.getZoom() >= 19) {
+                        layer_12_villages_autour_de_Dinangourou_0.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_12_villages_autour_de_Dinangourou_0.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        });
+        setBounds();
+        var i = 0;
+        layer_12_villages_autour_de_Dinangourou_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((exp_label_12_villages_autour_de_Dinangourou_0_eval_expression(context) !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'Tahoma\', sans-serif;">' + exp_label_12_villages_autour_de_Dinangourou_0_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_12_villages_autour_de_Dinangourou_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+                if (map.hasLayer(layer_12_villages_autour_de_Dinangourou_0)) {
+                    if (map.getZoom() <= 5 && map.getZoom() >= 19) {
+                        layer_12_villages_autour_de_Dinangourou_0.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_12_villages_autour_de_Dinangourou_0.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        map.addControl(new L.Control.Search({
+            layer: layer_12_villages_autour_de_Dinangourou_0,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Village'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"J1_Demogra": "int","DEBIT_PUIT": "int","J1_Type_nu": "int","Demographi": "int","Besoin_Eau": "int","Indice_Sti": "real","Village": "str","Type_pop": "str","J1_Type_po": "str","Wikipedia": "str","J1_Village": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_12_villages_autour_de_Dinangourou_0.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((exp_label_12_villages_autour_de_Dinangourou_0_eval_expression(context) !== null?String('<div style="color: #000000; font-size: 8pt; font-family: \'Tahoma\', sans-serif;">' + exp_label_12_villages_autour_de_Dinangourou_0_eval_expression(context)) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_12_villages_autour_de_Dinangourou_0'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_J1_Demogra = document.createElement("div");
+            div_J1_Demogra.id = "div_J1_Demogra";
+            div_J1_Demogra.className = "slider";
+            document.getElementById("menu").appendChild(div_J1_Demogra);
+            var lab_J1_Demogra = document.createElement('div');
+            lab_J1_Demogra.innerHTML  = 'J1_Demogra: <span id="val_J1_Demogra"></span>';
+            lab_J1_Demogra.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_J1_Demogra);
+            var reset_J1_Demogra = document.createElement('div');
+            reset_J1_Demogra.innerHTML = 'clear filter';
+            reset_J1_Demogra.className = 'filterlabel';
+            lab_J1_Demogra.className = 'filterlabel';
+            reset_J1_Demogra.onclick = function() {
+                sel_J1_Demogra.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_J1_Demogra);
+            var sel_J1_Demogra = document.getElementById('div_J1_Demogra');
+            noUiSlider.create(sel_J1_Demogra, {
+                connect: true,
+                start: [34, 134],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 34,
+                max: 134
+                }
+            });
+            sel_J1_Demogra.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_J1_Demogra = document.getElementById('val_J1_Demogra');
+            val_J1_Demogra.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_DEBIT_PUIT = document.createElement("div");
+            div_DEBIT_PUIT.id = "div_DEBIT_PUIT";
+            div_DEBIT_PUIT.className = "slider";
+            document.getElementById("menu").appendChild(div_DEBIT_PUIT);
+            var lab_DEBIT_PUIT = document.createElement('div');
+            lab_DEBIT_PUIT.innerHTML  = 'DEBIT_PUIT: <span id="val_DEBIT_PUIT"></span>';
+            lab_DEBIT_PUIT.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_DEBIT_PUIT);
+            var reset_DEBIT_PUIT = document.createElement('div');
+            reset_DEBIT_PUIT.innerHTML = 'clear filter';
+            reset_DEBIT_PUIT.className = 'filterlabel';
+            lab_DEBIT_PUIT.className = 'filterlabel';
+            reset_DEBIT_PUIT.onclick = function() {
+                sel_DEBIT_PUIT.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_DEBIT_PUIT);
+            var sel_DEBIT_PUIT = document.getElementById('div_DEBIT_PUIT');
+            noUiSlider.create(sel_DEBIT_PUIT, {
+                connect: true,
+                start: [50, 950],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 50,
+                max: 950
+                }
+            });
+            sel_DEBIT_PUIT.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_DEBIT_PUIT = document.getElementById('val_DEBIT_PUIT');
+            val_DEBIT_PUIT.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_J1_Type_nu = document.createElement("div");
+            div_J1_Type_nu.id = "div_J1_Type_nu";
+            div_J1_Type_nu.className = "slider";
+            document.getElementById("menu").appendChild(div_J1_Type_nu);
+            var lab_J1_Type_nu = document.createElement('div');
+            lab_J1_Type_nu.innerHTML  = 'J1_Type_nu: <span id="val_J1_Type_nu"></span>';
+            lab_J1_Type_nu.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_J1_Type_nu);
+            var reset_J1_Type_nu = document.createElement('div');
+            reset_J1_Type_nu.innerHTML = 'clear filter';
+            reset_J1_Type_nu.className = 'filterlabel';
+            lab_J1_Type_nu.className = 'filterlabel';
+            reset_J1_Type_nu.onclick = function() {
+                sel_J1_Type_nu.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_J1_Type_nu);
+            var sel_J1_Type_nu = document.getElementById('div_J1_Type_nu');
+            noUiSlider.create(sel_J1_Type_nu, {
+                connect: true,
+                start: [1, 2],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 1,
+                max: 2
+                }
+            });
+            sel_J1_Type_nu.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_J1_Type_nu = document.getElementById('val_J1_Type_nu');
+            val_J1_Type_nu.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Demographi = document.createElement("div");
+            div_Demographi.id = "div_Demographi";
+            div_Demographi.className = "slider";
+            document.getElementById("menu").appendChild(div_Demographi);
+            var lab_Demographi = document.createElement('div');
+            lab_Demographi.innerHTML  = 'Demographi: <span id="val_Demographi"></span>';
+            lab_Demographi.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Demographi);
+            var reset_Demographi = document.createElement('div');
+            reset_Demographi.innerHTML = 'clear filter';
+            reset_Demographi.className = 'filterlabel';
+            lab_Demographi.className = 'filterlabel';
+            reset_Demographi.onclick = function() {
+                sel_Demographi.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Demographi);
+            var sel_Demographi = document.getElementById('div_Demographi');
+            noUiSlider.create(sel_Demographi, {
+                connect: true,
+                start: [34, 134],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 34,
+                max: 134
+                }
+            });
+            sel_Demographi.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Demographi = document.getElementById('val_Demographi');
+            val_Demographi.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Besoin_Eau = document.createElement("div");
+            div_Besoin_Eau.id = "div_Besoin_Eau";
+            div_Besoin_Eau.className = "slider";
+            document.getElementById("menu").appendChild(div_Besoin_Eau);
+            var lab_Besoin_Eau = document.createElement('div');
+            lab_Besoin_Eau.innerHTML  = 'Besoin_Eau: <span id="val_Besoin_Eau"></span>';
+            lab_Besoin_Eau.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Besoin_Eau);
+            var reset_Besoin_Eau = document.createElement('div');
+            reset_Besoin_Eau.innerHTML = 'clear filter';
+            reset_Besoin_Eau.className = 'filterlabel';
+            lab_Besoin_Eau.className = 'filterlabel';
+            reset_Besoin_Eau.onclick = function() {
+                sel_Besoin_Eau.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Besoin_Eau);
+            var sel_Besoin_Eau = document.getElementById('div_Besoin_Eau');
+            noUiSlider.create(sel_Besoin_Eau, {
+                connect: true,
+                start: [1440, 4900],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 1440,
+                max: 4900
+                }
+            });
+            sel_Besoin_Eau.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Besoin_Eau = document.getElementById('val_Besoin_Eau');
+            val_Besoin_Eau.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Indice_Sti = document.createElement("div");
+            div_Indice_Sti.id = "div_Indice_Sti";
+            div_Indice_Sti.className = "slider";
+            document.getElementById("menu").appendChild(div_Indice_Sti);
+            var lab_Indice_Sti = document.createElement('div');
+            lab_Indice_Sti.innerHTML  = 'Indice_Sti: <span id="val_Indice_Sti"></span>';
+            lab_Indice_Sti.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Indice_Sti);
+            var reset_Indice_Sti = document.createElement('div');
+            reset_Indice_Sti.innerHTML = 'clear filter';
+            reset_Indice_Sti.className = 'filterlabel';
+            lab_Indice_Sti.className = 'filterlabel';
+            reset_Indice_Sti.onclick = function() {
+                sel_Indice_Sti.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Indice_Sti);
+            var sel_Indice_Sti = document.getElementById('div_Indice_Sti');
+            noUiSlider.create(sel_Indice_Sti, {
+                connect: true,
+                start: [0.143, 2.09],
+                range: {
+                min: 0.143,
+                max: 2.09
+                }
+            });
+            sel_Indice_Sti.noUiSlider.on('update', function (values) {
+            val_Indice_Sti = document.getElementById('val_Indice_Sti');
+            val_Indice_Sti.innerHTML = values.join(' - ');
+                filterFunc()
+            });
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Village = document.createElement('div');
+            div_Village.id = "div_Village";
+            div_Village.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Village);
+            sel_Village = document.createElement('select');
+            sel_Village.multiple = true;
+            sel_Village.size = 10;
+            sel_Village.id = "sel_Village";
+            var Village_options_str = "<option value='' unselected></option>";
+            sel_Village.onchange = function(){filterFunc()};
+            Village_options_str  += '<option value="Bamakodabi">Bamakodabi</option>';
+            Village_options_str  += '<option value="Dinangourou">Dinangourou</option>';
+            Village_options_str  += '<option value="Dionouga">Dionouga</option>';
+            Village_options_str  += '<option value="Douari">Douari</option>';
+            Village_options_str  += '<option value="Gangafani">Gangafani</option>';
+            Village_options_str  += '<option value="Koba">Koba</option>';
+            Village_options_str  += '<option value="Kolinki">Kolinki</option>';
+            Village_options_str  += '<option value="Ouagadinlou">Ouagadinlou</option>';
+            Village_options_str  += '<option value="Takouba">Takouba</option>';
+            Village_options_str  += '<option value="Tiefora">Tiefora</option>';
+            Village_options_str  += '<option value="Yanle">Yanle</option>';
+            Village_options_str  += '<option value="Yoro">Yoro</option>';
+            sel_Village.innerHTML = Village_options_str;
+            div_Village.appendChild(sel_Village);
+            var lab_Village = document.createElement('div');
+            lab_Village.innerHTML = 'Village';
+            lab_Village.className = 'filterlabel';
+            div_Village.appendChild(lab_Village);
+            var reset_Village = document.createElement('div');
+            reset_Village.innerHTML = 'clear filter';
+            reset_Village.className = 'filterlabel';
+            reset_Village.onclick = function() {
+                var options = document.getElementById("sel_Village").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Village.appendChild(reset_Village);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Type_pop = document.createElement('div');
+            div_Type_pop.id = "div_Type_pop";
+            div_Type_pop.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Type_pop);
+            sel_Type_pop = document.createElement('select');
+            sel_Type_pop.multiple = true;
+            sel_Type_pop.size = 2;
+            sel_Type_pop.id = "sel_Type_pop";
+            var Type_pop_options_str = "<option value='' unselected></option>";
+            sel_Type_pop.onchange = function(){filterFunc()};
+            Type_pop_options_str  += '<option value="Cultivateur">Cultivateur</option>';
+            Type_pop_options_str  += '<option value="Eleveur">Eleveur</option>';
+            sel_Type_pop.innerHTML = Type_pop_options_str;
+            div_Type_pop.appendChild(sel_Type_pop);
+            var lab_Type_pop = document.createElement('div');
+            lab_Type_pop.innerHTML = 'Type_pop';
+            lab_Type_pop.className = 'filterlabel';
+            div_Type_pop.appendChild(lab_Type_pop);
+            var reset_Type_pop = document.createElement('div');
+            reset_Type_pop.innerHTML = 'clear filter';
+            reset_Type_pop.className = 'filterlabel';
+            reset_Type_pop.onclick = function() {
+                var options = document.getElementById("sel_Type_pop").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Type_pop.appendChild(reset_Type_pop);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_J1_Type_po = document.createElement('div');
+            div_J1_Type_po.id = "div_J1_Type_po";
+            div_J1_Type_po.className= "filterselect";
+            document.getElementById("menu").appendChild(div_J1_Type_po);
+            sel_J1_Type_po = document.createElement('select');
+            sel_J1_Type_po.multiple = true;
+            sel_J1_Type_po.size = 2;
+            sel_J1_Type_po.id = "sel_J1_Type_po";
+            var J1_Type_po_options_str = "<option value='' unselected></option>";
+            sel_J1_Type_po.onchange = function(){filterFunc()};
+            J1_Type_po_options_str  += '<option value="Cultivateur">Cultivateur</option>';
+            J1_Type_po_options_str  += '<option value="Eleveur">Eleveur</option>';
+            sel_J1_Type_po.innerHTML = J1_Type_po_options_str;
+            div_J1_Type_po.appendChild(sel_J1_Type_po);
+            var lab_J1_Type_po = document.createElement('div');
+            lab_J1_Type_po.innerHTML = 'J1_Type_po';
+            lab_J1_Type_po.className = 'filterlabel';
+            div_J1_Type_po.appendChild(lab_J1_Type_po);
+            var reset_J1_Type_po = document.createElement('div');
+            reset_J1_Type_po.innerHTML = 'clear filter';
+            reset_J1_Type_po.className = 'filterlabel';
+            reset_J1_Type_po.onclick = function() {
+                var options = document.getElementById("sel_J1_Type_po").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_J1_Type_po.appendChild(reset_J1_Type_po);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Wikipedia = document.createElement('div');
+            div_Wikipedia.id = "div_Wikipedia";
+            div_Wikipedia.className= "filterselect";
+            document.getElementById("menu").appendChild(div_Wikipedia);
+            sel_Wikipedia = document.createElement('select');
+            sel_Wikipedia.multiple = true;
+            sel_Wikipedia.size = 1;
+            sel_Wikipedia.id = "sel_Wikipedia";
+            var Wikipedia_options_str = "<option value='' unselected></option>";
+            sel_Wikipedia.onchange = function(){filterFunc()};
+            Wikipedia_options_str  += '<option value="NULL">NULL</option>';
+            sel_Wikipedia.innerHTML = Wikipedia_options_str;
+            div_Wikipedia.appendChild(sel_Wikipedia);
+            var lab_Wikipedia = document.createElement('div');
+            lab_Wikipedia.innerHTML = 'Wikipedia';
+            lab_Wikipedia.className = 'filterlabel';
+            div_Wikipedia.appendChild(lab_Wikipedia);
+            var reset_Wikipedia = document.createElement('div');
+            reset_Wikipedia.innerHTML = 'clear filter';
+            reset_Wikipedia.className = 'filterlabel';
+            reset_Wikipedia.onclick = function() {
+                var options = document.getElementById("sel_Wikipedia").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_Wikipedia.appendChild(reset_Wikipedia);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_J1_Village = document.createElement('div');
+            div_J1_Village.id = "div_J1_Village";
+            div_J1_Village.className= "filterselect";
+            document.getElementById("menu").appendChild(div_J1_Village);
+            sel_J1_Village = document.createElement('select');
+            sel_J1_Village.multiple = true;
+            sel_J1_Village.size = 10;
+            sel_J1_Village.id = "sel_J1_Village";
+            var J1_Village_options_str = "<option value='' unselected></option>";
+            sel_J1_Village.onchange = function(){filterFunc()};
+            J1_Village_options_str  += '<option value="Bamakodabi">Bamakodabi</option>';
+            J1_Village_options_str  += '<option value="Dinangourou">Dinangourou</option>';
+            J1_Village_options_str  += '<option value="Dionouga">Dionouga</option>';
+            J1_Village_options_str  += '<option value="Douari">Douari</option>';
+            J1_Village_options_str  += '<option value="Gangafani">Gangafani</option>';
+            J1_Village_options_str  += '<option value="Koba">Koba</option>';
+            J1_Village_options_str  += '<option value="Kolinki">Kolinki</option>';
+            J1_Village_options_str  += '<option value="Ouagadinlou">Ouagadinlou</option>';
+            J1_Village_options_str  += '<option value="Takouba">Takouba</option>';
+            J1_Village_options_str  += '<option value="Tiefora">Tiefora</option>';
+            J1_Village_options_str  += '<option value="Yanle">Yanle</option>';
+            J1_Village_options_str  += '<option value="Yoro">Yoro</option>';
+            sel_J1_Village.innerHTML = J1_Village_options_str;
+            div_J1_Village.appendChild(sel_J1_Village);
+            var lab_J1_Village = document.createElement('div');
+            lab_J1_Village.innerHTML = 'J1_Village';
+            lab_J1_Village.className = 'filterlabel';
+            div_J1_Village.appendChild(lab_J1_Village);
+            var reset_J1_Village = document.createElement('div');
+            reset_J1_Village.innerHTML = 'clear filter';
+            reset_J1_Village.className = 'filterlabel';
+            reset_J1_Village.onclick = function() {
+                var options = document.getElementById("sel_J1_Village").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_J1_Village.appendChild(reset_J1_Village);
+        resetLabels([layer_12_villages_autour_de_Dinangourou_0]);
+        map.on("zoomend", function(){
+            resetLabels([layer_12_villages_autour_de_Dinangourou_0]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_12_villages_autour_de_Dinangourou_0]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_12_villages_autour_de_Dinangourou_0]);
+        });
+        </script>
+    </body>
+</html>
